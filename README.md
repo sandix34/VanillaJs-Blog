@@ -5,7 +5,7 @@
 - Créer plusieurs `bundles` avec `webpack` pour avoir un `bundles` par page.
 - Utiliser `Sass` avec `webpack`
 - Utliliser des images et des `assets` avec `webpack`
-- réaliser toutes les reques CRUD (CREATE / READ / UPDATE / DELETE)
+- réaliser toutes les requêtes CRUD (CREATE / READ / UPDATE / DELETE)
 - Récupération d'articles, création d'articles, mise a jour et supression
 - menu de navigation responsive
 
