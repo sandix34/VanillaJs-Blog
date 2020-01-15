@@ -1,3 +1,4 @@
-import './form.scss';
+import "../assets/styles/styles.scss"
+import "./form.scss";
 
-console.log('form');
+console.log("form");
