@@ -1,6 +1,32 @@
-@import 'variables';
-@import 'reset';
-@import 'classes';
-@import 'media-queries';
-@import 'utils';
-@import 'base';
+@import "variables";
+@import "reset";
+@import "classes";
+@import "media-queries";
+@import "utils";
+@import "base";
+
+.container {
+  min-height: 100vh;
+  display: grid;
+  grid: 
+    "header" auto
+    "content" 1fr
+    "footer" auto /
+    auto
+}
+
+header {
+  grid-area: header;
+  background: green;
+  padding: 20px;
+}
+
+.content {
+  grid-area: content;
+  padding: 20px;
+}
+
+footer {
+  grid-area: footer;
+  padding: 20px;
+}
