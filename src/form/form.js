@@ -8,7 +8,7 @@ const errorElement = document.querySelector("#errors");
 let errors = [];
 
 // add a listener to the submit event of the form
-form.addEventListener('submit', event => {
+form.addEventListener('submit', async event => {
   // prevents reloading the page
   event.preventDefault();
   // use the FormData object to parse all form fields
@@ -17,12 +17,22 @@ form.addEventListener('submit', event => {
   const entries = formData.entries();
   // Object.fromEntries transforms an iterable pair of key / value pairs into a javascript object
   const article = Object.fromEntries(entries);
-  if (formIsValid(article)){
-    // convert javascript object to json 
-    const json = JSON.stringify(article);
-    console.log(json);
+  if (formIsValid(article)) {
+    try {
+      const json = JSON.stringify(article);
+      const response = await fetch("https://restapi.fr/api/article", {
+        method: "POST",
+        body: json,
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+      const body = await response.json();
+      console.log(body);
+    } catch (e) {
+      console.error("e : ", e);
+    }
   }
-  
 })
 
 // check that all fields are filled
