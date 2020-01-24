@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 // A webpack plugin to remove/clean your build folder(s)
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -30,6 +31,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new FaviconsWebpackPlugin('./src/assets/images/favicon.png'),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       filename: 'index.html',
