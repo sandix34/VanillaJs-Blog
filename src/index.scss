@@ -3,11 +3,33 @@
 .content {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  padding: 5rem;
+  .sidebar {
+    flex: 0 0 25rem;
+    padding: 0 2rem 2rem 2rem;
+    .categories {
+      padding: 2rem;
+      background: white;
+      border-radius: 0.3rem;
+      box-shadow: var(--box-shadow);
+      li {
+        margin: 1rem;
+        transition: 0.2s;
+        cursor: pointer;
+        &:hover {
+          color:var(--primary);
+          strong {
+            color:var(--primary)
+          }
+        }
+      }
+    }
+  }
   .articles-container {
-    max-width: 800px;
-    width: 100%;
-    margin: 5rem 0 10rem 0;
+    max-width: 80rem;
+    flex: 1;
+    margin: 0 0 10rem 0;
     .article {
       background: white;
       padding: 0 5rem;
