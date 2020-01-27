@@ -6,6 +6,12 @@ const form = document.querySelector('form');
 
 const errorElement = document.querySelector("#errors");
 let errors = [];
+const btnCancel = document.querySelector('.btn-secondary');
+
+// returns to the home page if the user cancels the creation of an article
+btnCancel.addEventListener('click', () => {
+  window.location.assign('/index.html');
+})
 
 // add a listener to the submit event of the form
 form.addEventListener('submit', async event => {
@@ -27,8 +33,10 @@ form.addEventListener('submit', async event => {
           "Content-Type": "application/json"
         }
       });
-      const body = await response.json();
-      console.log(body);
+      // if the response status is less than 300, there are no errors, we redirect
+      if (response.status < 299) {
+        window.location.assign('/index.html');
+      }
     } catch (e) {
       console.error("e : ", e);
     }
@@ -37,6 +45,7 @@ form.addEventListener('submit', async event => {
 
 // check that all fields are filled
 const formIsValid = article => {
+  errors = [];
   if (
     !article.author ||
     !article.category ||
