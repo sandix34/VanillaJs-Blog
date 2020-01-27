@@ -9,6 +9,19 @@ let errors = [];
 const btnCancel = document.querySelector('.btn-secondary');
 let articleId;
 
+// fill in all fields by creating references and using information retrieved from the server
+const fillForm = article => {
+  const author = document.querySelector('input[name="author"]');
+  const img = document.querySelector('input[name="img"]');
+  const category = document.querySelector('input[name="category"]');
+  const title = document.querySelector('input[name="title"]');
+  const content = document.querySelector("textarea");
+  author.value = article.author || "";
+  img.value = article.img || "";
+  category.value = article.category || "";
+  title.value = article.title || "";
+  content.value = article.content || "";
+};
 
 // parse the url and check if we have an if parameter
 // if we have an id, we get the corresponding article
@@ -23,25 +36,11 @@ const initForm = async () => {
       const article = await response.json();
       console.log(article);
       fillForm(article);
-    }
-    
+    }    
   }
-  initForm();
-  
-  // fill in all fields by creating references and using information retrieved from the server
-  const fillForm = article => {
-    const author = document.querySelector('input[name="author"]');
-    const img = document.querySelector('input[name="img"]');
-    const category = document.querySelector('input[name="category"]');
-    const title = document.querySelector('input[name="title"]');
-    const content = document.querySelector("textarea");
-    author.value = article.author || "";
-    img.value = article.img || "";
-    category.value = article.category || "";
-    title.value = article.title || "";
-    content.value = article.content || "";
-  };
 }
+
+initForm();
 
 
 // returns to the home page if the user cancels the creation of an article

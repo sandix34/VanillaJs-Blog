@@ -2,6 +2,7 @@ import "./assets/styles/styles.scss";
 import "./index.scss";
 
 const articleContainerElement = document.querySelector(".articles-container");
+const categoriesContainerElement = document.querySelector(".categories");
 
 const createArticles = articles => {  
   const articlesDOM = articles.map(article => {
@@ -54,9 +55,37 @@ const createArticles = articles => {
       }
 
     })
-  })
-  
+  })  
 };
+
+// create a list element for each category contained in the array
+const displayMenuCategories = (categoriesArr) => {
+  const liElements = categoriesArr.map( categoryElem => {
+    const li = document.createElement('li');
+    li.innerHTML = `<li>${ categoryElem[0] }<strong>(${ categoryElem[1] })</strong></li>`;
+    return li;
+  });
+  categoriesContainerElement.innerHTML = '';
+  categoriesContainerElement.append(...liElements);
+}
+
+const createMenuCategories = (articles) => {
+  // transforms articles retrieved from the server into an object
+  const categories = articles.reduce((acc, article) => {
+    if (acc[article.category]) {
+      acc[article.category]++;
+    } else {
+      acc[article.category] = 1;
+    }
+    return acc;
+  }, {})
+
+  // transform the object into an array of arrays
+  const categoriesArr = Object.keys(categories).map((category) => {
+    return [category, categories[category]]
+  });
+  displayMenuCategories(categoriesArr);
+}
 
 const fetchArticle = async () => {
   try {
@@ -64,6 +93,7 @@ const fetchArticle = async () => {
     const articles = await response.json();
     console.log(articles);
     createArticles(articles);
+    createMenuCategories(articles);
   } catch (e) {
     console.log("e:", e);
   }
