@@ -7,6 +7,42 @@ const form = document.querySelector('form');
 const errorElement = document.querySelector("#errors");
 let errors = [];
 const btnCancel = document.querySelector('.btn-secondary');
+let articleId;
+
+
+// parse the url and check if we have an if parameter
+// if we have an id, we get the corresponding article
+const initForm = async () => {
+  const params = new URL(location.href);
+  articleId = params.searchParams.get('id');
+  console.log(articleId);
+  
+  if (articleId) {
+    const response = await fetch(`https://restapi.fr/api/article/${ articleId }`)
+    if (response.status < 300) {
+      const article = await response.json();
+      console.log(article);
+      fillForm(article);
+    }
+    
+  }
+  initForm();
+  
+  // fill in all fields by creating references and using information retrieved from the server
+  const fillForm = article => {
+    const author = document.querySelector('input[name="author"]');
+    const img = document.querySelector('input[name="img"]');
+    const category = document.querySelector('input[name="category"]');
+    const title = document.querySelector('input[name="title"]');
+    const content = document.querySelector("textarea");
+    author.value = article.author || "";
+    img.value = article.img || "";
+    category.value = article.category || "";
+    title.value = article.title || "";
+    content.value = article.content || "";
+  };
+}
+
 
 // returns to the home page if the user cancels the creation of an article
 btnCancel.addEventListener('click', () => {
@@ -26,13 +62,26 @@ form.addEventListener('submit', async event => {
   if (formIsValid(article)) {
     try {
       const json = JSON.stringify(article);
-      const response = await fetch("https://restapi.fr/api/article", {
-        method: "POST",
-        body: json,
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
+      let response;
+      if (articleId) {
+        // edit article
+        response = await fetch(`https://restapi.fr/api/article/${ articleId }`, {
+          method: "PATCH",
+          body: json,
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+      } else {
+        // create article
+        response = await fetch("https://restapi.fr/api/article", {
+          method: "POST",
+          body: json,
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+      }
       // if the response status is less than 300, there are no errors, we redirect
       if (response.status < 299) {
         window.location.assign('/index.html');
