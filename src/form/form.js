@@ -1,5 +1,6 @@
 import "../assets/styles/styles.scss"
 import "./form.scss";
+import { openModal } from '../assets/javascripts/modal';
 
 // create a reference for the form
 const form = document.querySelector('form');
@@ -44,9 +45,12 @@ initForm();
 
 
 // returns to the home page if the user cancels the creation of an article
-btnCancel.addEventListener('click', () => {
-  window.location.assign('/index.html');
-})
+btnCancel.addEventListener('click', async () => {
+  const result = await openModal("Si vous quittez la page, vous allez perdre votre article");
+  if (result) {
+    window.location.assign('/index.html');
+  }
+});
 
 // add a listener to the submit event of the form
 form.addEventListener('submit', async event => {

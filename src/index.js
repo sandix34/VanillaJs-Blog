@@ -56,9 +56,9 @@ const createArticles = () => {
   })
 
   deleteButtons.forEach( button => {
-    button.addEventListener('click', event => {
-      openModal("Etes vous sûr de vouloir supprimer votre article ?");
-      /* if (result === true) {
+    button.addEventListener('click', async event => {
+      const result = await openModal("Etes vous sûr de vouloir supprimer votre article ?");
+      if (result === true) {
         try {
           const target = event.target;
           const articleId = target.dataset.id;
@@ -71,7 +71,7 @@ const createArticles = () => {
         } catch(e) {
           console.log("e:", e);
         }
-      } */
+      }
     })
   })  
 };
