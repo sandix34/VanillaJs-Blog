@@ -3,9 +3,17 @@ import "./index.scss";
 
 const articleContainerElement = document.querySelector(".articles-container");
 const categoriesContainerElement = document.querySelector(".categories");
+let filter;
+let articles;
 
-const createArticles = articles => {  
-  const articlesDOM = articles.map(article => {
+const createArticles = () => {  
+  const articlesDOM = articles.filter((article) => {
+    if (filter) {
+      return article.category === filter;
+    } else {
+      return true;
+    }
+  }).map(article => {
     const articleDOM = document.createElement("div");
     articleDOM.classList.add("article");
     articleDOM.innerHTML = `
@@ -63,13 +71,27 @@ const displayMenuCategories = (categoriesArr) => {
   const liElements = categoriesArr.map( categoryElem => {
     const li = document.createElement('li');
     li.innerHTML = `<li>${ categoryElem[0] }<strong>(${ categoryElem[1] })</strong></li>`;
+    li.addEventListener('click', () => {
+      if (filter === categoryElem[0]) {
+        filter = null;
+        li.classList.remove('active');
+        createArticles();
+      } else {
+        filter = categoryElem[0];
+        liElements.forEach(li => {
+          li.classList.remove('active');
+        })
+        li.classList.add('active');
+        createArticles();
+      }
+    })
     return li;
   });
   categoriesContainerElement.innerHTML = '';
   categoriesContainerElement.append(...liElements);
 }
 
-const createMenuCategories = (articles) => {
+const createMenuCategories = () => {
   // transforms articles retrieved from the server into an object
   const categories = articles.reduce((acc, article) => {
     if (acc[article.category]) {
@@ -83,17 +105,17 @@ const createMenuCategories = (articles) => {
   // transform the object into an array of arrays
   const categoriesArr = Object.keys(categories).map((category) => {
     return [category, categories[category]]
-  });
+  }).sort((c1, c2) => c1[0].localeCompare(c2[0])); // sort categories alphabetically
   displayMenuCategories(categoriesArr);
 }
 
 const fetchArticle = async () => {
   try {
     const response = await fetch("https://restapi.fr/api/article");
-    const articles = await response.json();
+    articles = await response.json();
     console.log(articles);
-    createArticles(articles);
-    createMenuCategories(articles);
+    createArticles();
+    createMenuCategories();
   } catch (e) {
     console.log("e:", e);
   }
