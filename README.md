@@ -2,6 +2,9 @@
 ![GitHub top language](https://img.shields.io/github/languages/top/sandix34/VanillaJs-Blog)
 ![GitHub last commit](https://img.shields.io/github/last-commit/sandix34/VanillaJs-Blog)
 # Un blog en vanilla JavaScript
+
+![blog](https://user-images.githubusercontent.com/44428775/73850995-10c07d00-482d-11ea-84b3-0964b7610b77.gif)
+
 - Créer plusieurs `bundles` avec `webpack` pour avoir un `bundles` par page.
 - Utiliser `Sass` avec `webpack`
 - Utliliser des images et des `assets` avec `webpack`
